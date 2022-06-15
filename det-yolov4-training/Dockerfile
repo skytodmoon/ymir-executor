@@ -7,6 +7,9 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
 RUN apt-get install -y make
 RUN apt-get update
+RUN apt-get update gcc
+RUN apt-get install -y g++
+RUN apt-get update
 RUN apt install -y python3.8 python3-distutils
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.conv.137
