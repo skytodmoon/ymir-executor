@@ -1,5 +1,7 @@
 #FROM nvidia/cuda:11.0.3-devel-ubuntu18.04
-FROM nvidia/cuda:11.1.1-cudnn8-runtime-ubuntu20.04
+#FROM ubuntu2004
+#FROM nvidia/cuda:11.1.1-cudnn8-runtime-ubuntu20.04
+FROM registry.cn-zhangjiakou.aliyuncs.com/com_futuremake/nvidia-ubuntu2004:1.0
 ARG PIP_SOURCE=https://pypi.mirrors.ustc.edu.cn/simple
 WORKDIR /darknet
 RUN apt-get update
