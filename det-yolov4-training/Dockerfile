@@ -8,6 +8,7 @@ RUN apt-get update
 RUN apt install -y software-properties-common wget
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
+RUN apt-get install --assume-yes apt-utils
 RUN apt install build-essential -y
 RUN apt-get update
 RUN apt install libterm-readkey-perl -y
