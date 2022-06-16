@@ -7,6 +7,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
 RUN apt install build-essential -y
 RUN apt-get update
+RUN apt install libterm-readkey-perl -y
 RUN apt install -y python3.8 python3-distutils
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.conv.137
