@@ -25,7 +25,7 @@ ARCH= -gencode arch=compute_35,code=sm_35 \
 
 OS := $(shell uname)
 
-cat >> ~/.bashrc << EOF
+cat >> ~/.bashrc <<-EOF
 export TORCH_CUDA_ARCH_LIST="8.0"
 EOF
 
