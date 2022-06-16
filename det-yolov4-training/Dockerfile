@@ -5,9 +5,7 @@ RUN apt-get update
 RUN apt install -y software-properties-common wget
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
-RUN apt-get install -y make
-RUN apt-get update
-RUN apt-get install -y g++
+RUN apt install build-essential
 RUN apt-get update
 RUN apt install -y python3.8 python3-distutils
 RUN wget https://bootstrap.pypa.io/get-pip.py
