@@ -25,6 +25,8 @@ ARCH= -gencode arch=compute_35,code=sm_35 \
 
 OS := $(shell uname)
 
+export TORCH_CUDA_ARCH_LIST="8.0"
+
 # GeForce RTX 3070, 3080, 3090
 # ARCH= -gencode arch=compute_86,code=[sm_86,compute_86]
 
