@@ -5,6 +5,8 @@ FROM nvidia/cuda:11.0.3-cudnn8-devel-ubuntu20.04
 #FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
 #FROM nvidia/cuda:11.1.1-cudnn8-runtime-ubuntu20.04
 #ARG PIP_SOURCE=https://pypi.mirrors.ustc.edu.cn/simple
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Shanghai
 WORKDIR /darknet
 RUN apt-get update
 RUN apt install -y software-properties-common wget
