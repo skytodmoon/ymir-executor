@@ -15,6 +15,8 @@ RUN apt-get update
 RUN apt-get install --assume-yes apt-utils
 RUN apt install build-essential -y
 RUN apt-get update
+RUN apt-get install libopenblas-dev -y
+RUN apt-get update
 RUN apt install libterm-readkey-perl -y
 RUN apt install -y python3.8 python3-distutils
 RUN wget https://bootstrap.pypa.io/get-pip.py
