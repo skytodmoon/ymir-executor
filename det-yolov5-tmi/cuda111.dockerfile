@@ -25,7 +25,7 @@ RUN if [ "${SERVER_MODE}" = "dev" ]; then \
     fi
 
 # Copy file from host to docker and install requirements
-ADD ../det-yolov5-tmi /app
+ADD ./det-yolov5-tmi /app
 RUN mkdir /img-man && mv /app/*-template.yaml /img-man/ \
     && pip install -r /app/requirements.txt
 
