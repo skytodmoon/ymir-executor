@@ -1,7 +1,7 @@
 ARG PYTORCH="1.8.0"
 ARG CUDA="11.1"
 ARG CUDNN="8"
-
+ARG PIP_SOURCE=https://pypi.mirrors.ustc.edu.cn/simple
 # cuda11.1 + pytorch 1.9.0 + cudnn8 not work!!!
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-runtime
 ARG SERVER_MODE=prod
