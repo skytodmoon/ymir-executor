@@ -34,7 +34,7 @@ RUN mkdir /img-man && mv /app/*-template.yaml /img-man/ \
 # Download pretrained weight and font file
 # COPY ./yolov5*.pt /app/
 RUN mkdir -p /root/.config/Ultralytics
-RUN wget https://ultralytics.com/assets/Arial.ttf
+RUN wget https://download.fastgit.org/ultralytics/yolov5/releases/download/v1.0/Arial.ttf
 COPY Arial.ttf /root/.config/Ultralytics/Arial.ttf
 
 # Make PYTHONPATH find local package
