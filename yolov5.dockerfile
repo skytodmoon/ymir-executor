@@ -20,7 +20,7 @@ RUN	apt-get update && apt-get install -y gnupg2 git libglib2.0-0 \
 RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple
 
 # install ymir-exc sdk
-# wget https://github.com/yzbx/ymir-executor-fork/releases/download/dataset/executor.zip 
+RUN wget https://github.com/yzbx/ymir-executor-fork/releases/download/dataset/executor.zip 
 WORKDIR /workspace
 COPY ./executor.zip /workspace
 RUN unzip executor.zip && pip install -e /workspace/executor
@@ -35,7 +35,7 @@ RUN mkdir /img-man && mv /app/*-template.yaml /img-man/ \
 # COPY ./yolov5*.pt /app/
 RUN mkdir -p /root/.config/Ultralytics
 RUN wget https://download.fastgit.org/ultralytics/yolov5/releases/download/v1.0/Arial.ttf
-COPY Arial.ttf /root/.config/Ultralytics/Arial.ttf
+COPY ./Arial.ttf /root/.config/Ultralytics/Arial.ttf
 
 # Make PYTHONPATH find local package
 ENV PYTHONPATH=.
