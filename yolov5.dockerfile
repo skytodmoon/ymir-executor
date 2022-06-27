@@ -20,9 +20,9 @@ RUN	apt-get update && apt-get install -y gnupg2 git libglib2.0-0 \
 RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple
 
 # install ymir-exc sdk
-RUN wget https://github.com/yzbx/ymir-executor-fork/releases/download/dataset/executor.zip 
 WORKDIR /workspace
-COPY ./executor.zip /workspace
+RUN wget https://github.com/yzbx/ymir-executor-fork/releases/download/dataset/executor.zip -O /workspace/executor.zip
+#COPY ./executor.zip /workspace
 RUN unzip executor.zip && pip install -e /workspace/executor
 
 # Copy file from host to docker and install requirements
