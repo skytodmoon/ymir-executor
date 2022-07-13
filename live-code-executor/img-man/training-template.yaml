@@ -6,3 +6,6 @@ gpu_id: '0'
 task_id: 'default-training-task'
 pretrained_model_params: []
 class_names: []
+git_url: ''
+git_branch: ''
+code_config: ''
