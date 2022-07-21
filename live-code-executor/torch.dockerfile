@@ -14,10 +14,13 @@ ENV CMAKE_PREFIX_PATH="$(dirname $(which conda))/../"
 ENV LANG=C.UTF-8
 
 # install linux package
-RUN apt-get update && apt-get install -y git curl wget zip gcc \
-    libglib2.0-0 libgl1-mesa-glx libSM.so.6 \
+RUN apt-get update && apt-get install -y git curl wget zip gcc apt-file \
+    libglib2.0-0 libgl1-mesa-glx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+    
+# install libsm
+RUN apt-file update && apt-get install libSM.so.6
 
 # Install python package
 RUN pip install -U pip && \
