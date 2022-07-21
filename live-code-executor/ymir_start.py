@@ -34,7 +34,7 @@ def main():
     if osp.exists(pypi_file):
         pypi_mirror = executor_config.get('pypi_mirror', '')
 
-        cmd = f'pip install -r {pypi_file}'
+        cmd = f'pip install -r {pypi_file} -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/'
         cmd += ' -i {pypi_mirror}' if pypi_mirror else ''
 
         logger.info(f'install python package: {cmd}')
