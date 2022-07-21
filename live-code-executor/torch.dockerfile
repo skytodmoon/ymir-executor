@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y git curl wget zip gcc apt-file \
     && rm -rf /var/lib/apt/lists/*
     
 # install libsm
-RUN apt-file update && apt-get install libSM.so.6
+RUN apt-file update && apt-get install libsm6
 
 # Install python package
 RUN pip install -U pip && \
