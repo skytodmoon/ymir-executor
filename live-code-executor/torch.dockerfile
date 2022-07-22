@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y git curl wget zip gcc apt-file \
     && rm -rf /var/lib/apt/lists/*
     
 # install libsm
-RUN apt-file update && apt-get install -y libsm6 libxrender1
+RUN apt-file update && apt-get install -y libsm6 libxrender1 libxext-dev
 
 # Install python package
 RUN pip install -U pip && \
