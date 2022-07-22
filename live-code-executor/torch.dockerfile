@@ -40,7 +40,8 @@ COPY start.sh /usr/bin
 
 WORKDIR /workspace
 COPY ymir_start.py /workspace/ymir_start.py
-
+# add ttf
+RUN wget https://ultralytics.com/assets/Arial.ttf -O /root/.config/Ultralytics/Arial.ttf
 # set up python path
 ENV PYTHONPATH=.
 
