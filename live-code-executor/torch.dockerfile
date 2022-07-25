@@ -28,7 +28,7 @@ RUN pip install -U pip && \
 
 # install ymir-exc sdk
 RUN if [ "${SERVER_MODE}" = "dev" ]; then \
-    pip install --force-reinstall -U "git+https://github.com/IndustryEssentials/ymir.git/@dev#egg=ymir-exc&subdirectory=docker_executor/sample_executor/ymir_exc"; \
+    pip install "git+https://github.com/IndustryEssentials/ymir.git/@dev#egg=ymir-exc&subdirectory=docker_executor/sample_executor/ymir_exc"; \
   else \
     pip install ymir-exc; \
   fi
