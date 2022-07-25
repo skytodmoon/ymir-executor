@@ -5,7 +5,7 @@ ARG CUDNN="8"
 # cuda11.1 + pytorch 1.9.0 not work!!!
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-runtime
 
-ARG SERVER_MODE=prod
+ARG SERVER_MODE=dev
 ARG OPENCV="4.1.2.30"
 ARG NUMPY="1.20.0"
 ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
