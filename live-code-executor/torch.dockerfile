@@ -42,7 +42,8 @@ WORKDIR /workspace
 COPY ymir_start.py /workspace/ymir_start.py
 # add ttf
 RUN mkdir -p /root/.config/Ultralytics \
-&& wget https://ultralytics.com/assets/Arial.ttf -O /root/.config/Ultralytics/Arial.ttf
+&& wget https://ultralytics.com/assets/Arial.ttf -O /root/.config/Ultralytics/Arial.ttf \
+&& wget https://ultralytics.com/assets/Arial.Unicode.ttf to /root/.config/Ultralytics/Arial.Unicode.ttf
 # set up python path
 ENV PYTHONPATH=.
 
