@@ -1,4 +1,4 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
+# YOLOv3 🚀 by Ultralytics, GPL-3.0 license
 """
 Image augmentation functions
 """
@@ -14,7 +14,7 @@ from utils.metrics import bbox_ioa
 
 
 class Albumentations:
-    # YOLOv5 Albumentations class (optional, only used if package is installed)
+    #  Albumentations class (optional, only used if package is installed)
     def __init__(self):
         self.transform = None
         try:
@@ -269,7 +269,7 @@ def mixup(im, labels, im2, labels2):
     return im, labels
 
 
-def box_candidates(box1, box2, wh_thr=2, ar_thr=100, area_thr=0.1, eps=1e-16):  # box1(4,n), box2(4,n)
+def box_candidates(box1, box2, wh_thr=2, ar_thr=20, area_thr=0.1, eps=1e-16):  # box1(4,n), box2(4,n)
     # Compute candidate boxes: box1 before augment, box2 after augment, wh_thr (pixels), aspect_ratio_thr, area_ratio
     w1, h1 = box1[2] - box1[0], box1[3] - box1[1]
     w2, h2 = box2[2] - box2[0], box2[3] - box2[1]

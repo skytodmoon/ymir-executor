@@ -1,4 +1,4 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
+# YOLOv3 🚀 by Ultralytics, GPL-3.0 license
 """
 Auto-batch utils
 """
@@ -14,7 +14,7 @@ from utils.torch_utils import profile
 
 
 def check_train_batch_size(model, imgsz=640):
-    # Check YOLOv5 training batch size
+    # Check  training batch size
     with amp.autocast():
         return autobatch(deepcopy(model).train(), imgsz)  # compute optimal batch size
 
@@ -24,7 +24,7 @@ def autobatch(model, imgsz=640, fraction=0.9, batch_size=16):
     # Usage:
     #     import torch
     #     from utils.autobatch import autobatch
-    #     model = torch.hub.load('ultralytics/yolov5', 'yolov5s', autoshape=False)
+    #     model = torch.hub.load('ultralytics/yolov3', 'yolov3', autoshape=False)
     #     print(autobatch(model))
 
     prefix = colorstr('AutoBatch: ')

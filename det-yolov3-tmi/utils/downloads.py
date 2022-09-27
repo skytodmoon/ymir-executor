@@ -1,4 +1,4 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
+# YOLOv3 🚀 by Ultralytics, GPL-3.0 license
 """
 Download utils
 """
@@ -40,7 +40,7 @@ def safe_download(file, url, url2=None, min_bytes=1E0, error_msg=''):
         print('')
 
 
-def attempt_download(file, repo='ultralytics/yolov5'):  # from utils.downloads import *; attempt_download()
+def attempt_download(file, repo='ultralytics/yolov3'):  # from utils.downloads import *; attempt_download()
     # Attempt file download if does not exist
     file = Path(str(file).strip().replace("'", ''))
 
@@ -49,26 +49,22 @@ def attempt_download(file, repo='ultralytics/yolov5'):  # from utils.downloads i
         name = Path(urllib.parse.unquote(str(file))).name  # decode '%2F' to '/' etc.
         if str(file).startswith(('http:/', 'https:/')):  # download
             url = str(file).replace(':/', '://')  # Pathlib turns :// -> :/
-            file = name.split('?')[0]  # parse authentication https://url.com/file.txt?auth...
-            if Path(file).is_file():
-                print(f'Found {url} locally at {file}')  # file already exists
-            else:
-                safe_download(file=file, url=url, min_bytes=1E5)
-            return file
+            name = name.split('?')[0]  # parse authentication https://url.com/file.txt?auth...
+            safe_download(file=name, url=url, min_bytes=1E5)
+            return name
 
         # GitHub assets
         file.parent.mkdir(parents=True, exist_ok=True)  # make parent dir (if required)
         try:
             response = requests.get(f'https://api.github.com/repos/{repo}/releases/latest').json()  # github api
-            assets = [x['name'] for x in response['assets']]  # release assets, i.e. ['yolov5s.pt', 'yolov5m.pt', ...]
+            assets = [x['name'] for x in response['assets']]  # release assets, i.e. ['yolov3.pt'...]
             tag = response['tag_name']  # i.e. 'v1.0'
-        except Exception:  # fallback plan
-            assets = ['yolov5n.pt', 'yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt',
-                      'yolov5n6.pt', 'yolov5s6.pt', 'yolov5m6.pt', 'yolov5l6.pt', 'yolov5x6.pt']
+        except:  # fallback plan
+            assets = ['yolov3.pt', 'yolov3-spp.pt', 'yolov3-tiny.pt']
             try:
                 tag = subprocess.check_output('git tag', shell=True, stderr=subprocess.STDOUT).decode().split()[-1]
-            except Exception:
-                tag = 'v6.0'  # current release
+            except:
+                tag = 'v9.5.0'  # current release
 
         if name in assets:
             safe_download(file,
@@ -81,7 +77,7 @@ def attempt_download(file, repo='ultralytics/yolov5'):  # from utils.downloads i
 
 
 def gdrive_download(id='16TiPfZj7htmTyhntwcZyEEAejOUxuT6m', file='tmp.zip'):
-    # Downloads a file from Google Drive. from yolov5.utils.downloads import *; gdrive_download()
+    # Downloads a file from Google Drive. from yolov3.utils.downloads import *; gdrive_download()
     t = time.time()
     file = Path(file)
     cookie = Path('cookie')  # gdrive cookie

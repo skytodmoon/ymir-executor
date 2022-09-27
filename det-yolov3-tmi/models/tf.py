@@ -1,22 +1,23 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
+# YOLOv3 🚀 by Ultralytics, GPL-3.0 license
 """
-TensorFlow, Keras and TFLite versions of YOLOv5
+TensorFlow, Keras and TFLite versions of
 Authored by https://github.com/zldrobit in PR https://github.com/ultralytics/yolov5/pull/1127
 
 Usage:
-    $ python models/tf.py --weights yolov5s.pt
+    $ python models/tf.py --weights yolov3.pt
 
 Export:
-    $ python path/to/export.py --weights yolov5s.pt --include saved_model pb tflite tfjs
+    $ python path/to/export.py --weights yolov3.pt --include saved_model pb tflite tfjs
 """
 
 import argparse
+import logging
 import sys
 from copy import deepcopy
 from pathlib import Path
 
 FILE = Path(__file__).resolve()
-ROOT = FILE.parents[1]  # YOLOv5 root directory
+ROOT = FILE.parents[1]  # root directory
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 # ROOT = ROOT.relative_to(Path.cwd())  # relative
@@ -75,7 +76,7 @@ class TFConv(keras.layers.Layer):
         self.conv = conv if s == 1 else keras.Sequential([TFPad(autopad(k, p)), conv])
         self.bn = TFBN(w.bn) if hasattr(w, 'bn') else tf.identity
 
-        # YOLOv5 activations
+        #  activations
         if isinstance(w.act, nn.LeakyReLU):
             self.act = (lambda x: keras.activations.relu(x, alpha=0.1)) if act else tf.identity
         elif isinstance(w.act, nn.Hardswish):
@@ -232,7 +233,7 @@ class TFDetect(keras.layers.Layer):
                 xy /= tf.constant([[self.imgsz[1], self.imgsz[0]]], dtype=tf.float32)
                 wh /= tf.constant([[self.imgsz[1], self.imgsz[0]]], dtype=tf.float32)
                 y = tf.concat([xy, wh, y[..., 4:]], -1)
-                z.append(tf.reshape(y, [-1, self.na * ny * nx, self.no]))
+                z.append(tf.reshape(y, [-1, 3 * ny * nx, self.no]))
 
         return x if self.training else (tf.concat(z, 1), x)
 
@@ -321,7 +322,7 @@ def parse_model(d, ch, model, imgsz):  # model_dict, input_channels(3)
 
 
 class TFModel:
-    def __init__(self, cfg='yolov5s.yaml', ch=3, nc=None, model=None, imgsz=(640, 640)):  # model, channels, classes
+    def __init__(self, cfg='yolov3.yaml', ch=3, nc=None, model=None, imgsz=(640, 640)):  # model, channels, classes
         super().__init__()
         if isinstance(cfg, dict):
             self.yaml = cfg  # model dict
@@ -419,7 +420,7 @@ def representative_dataset_gen(dataset, ncalib=100):
             break
 
 
-def run(weights=ROOT / 'yolov5s.pt',  # weights path
+def run(weights=ROOT / 'yolov3.pt',  # weights path
         imgsz=(640, 640),  # inference size h,w
         batch_size=1,  # batch size
         dynamic=False,  # dynamic batch size
@@ -427,13 +428,13 @@ def run(weights=ROOT / 'yolov5s.pt',  # weights path
     # PyTorch model
     im = torch.zeros((batch_size, 3, *imgsz))  # BCHW image
     model = attempt_load(weights, map_location=torch.device('cpu'), inplace=True, fuse=False)
-    _ = model(im)  # inference
+    y = model(im)  # inference
     model.info()
 
     # TensorFlow model
     im = tf.zeros((batch_size, *imgsz, 3))  # BHWC image
     tf_model = TFModel(cfg=model.yaml, model=model, nc=model.nc, imgsz=imgsz)
-    _ = tf_model.predict(im)  # inference
+    y = tf_model.predict(im)  # inference
 
     # Keras model
     im = keras.Input(shape=(*imgsz, 3), batch_size=None if dynamic else batch_size)
@@ -445,7 +446,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # weights path
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', type=str, default=ROOT / 'yolov5s.pt', help='weights path')
+    parser.add_argument('--weights', type=str, default=ROOT / 'yolov3.pt', help='weights path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
     parser.add_argument('--batch-size', type=int, default=1, help='batch size')
     parser.add_argument('--dynamic', action='store_true', help='dynamic batch size')

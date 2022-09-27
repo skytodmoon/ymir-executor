@@ -15,7 +15,6 @@ data/samples/*
 **/*.pt
 **/*.pth
 **/*.onnx
-**/*.engine
 **/*.mlmodel
 **/*.torchscript
 **/*.torchscript.pt
@@ -24,7 +23,6 @@ data/samples/*
 **/*.pb
 *_saved_model/
 *_web_model/
-*_openvino_model/
 
 # Below Copied From .gitignore -----------------------------------------------------------------------------------------
 # Below Copied From .gitignore -----------------------------------------------------------------------------------------

@@ -1,8 +1,8 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
-# VisDrone2019-DET dataset https://github.com/VisDrone/VisDrone-Dataset by Tianjin University
+# YOLOv3 🚀 by Ultralytics, GPL-3.0 license
+# VisDrone2019-DET dataset https://github.com/VisDrone/VisDrone-Dataset
 # Example usage: python train.py --data VisDrone.yaml
 # parent
-# ├── yolov5
+# ├── yolov3
 # └── datasets
 #     └── VisDrone  ← downloads here
 
@@ -50,10 +50,10 @@ download: |
 
   # Download
   dir = Path(yaml['path'])  # dataset root dir
-  urls = ['https://github.com/ultralytics/yolov3/releases/download/v1.0/VisDrone2019-DET-train.zip',
-          'https://github.com/ultralytics/yolov3/releases/download/v1.0/VisDrone2019-DET-val.zip',
-          'https://github.com/ultralytics/yolov3/releases/download/v1.0/VisDrone2019-DET-test-dev.zip',
-          'https://github.com/ultralytics/yolov3/releases/download/v1.0/VisDrone2019-DET-test-challenge.zip']
+  urls = ['https://github.com/ultralytics/yolov5/releases/download/v1.0/VisDrone2019-DET-train.zip',
+          'https://github.com/ultralytics/yolov5/releases/download/v1.0/VisDrone2019-DET-val.zip',
+          'https://github.com/ultralytics/yolov5/releases/download/v1.0/VisDrone2019-DET-test-dev.zip',
+          'https://github.com/ultralytics/yolov5/releases/download/v1.0/VisDrone2019-DET-test-challenge.zip']
   download(urls, dir=dir)
 
   # Convert

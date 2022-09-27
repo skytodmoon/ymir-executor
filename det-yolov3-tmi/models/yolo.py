@@ -1,9 +1,9 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
+# YOLOv3 🚀 by Ultralytics, GPL-3.0 license
 """
 YOLO-specific modules
 
 Usage:
-    $ python path/to/models/yolo.py --cfg yolov5s.yaml
+    $ python path/to/models/yolo.py --cfg yolov3.yaml
 """
 
 import argparse
@@ -12,7 +12,7 @@ from copy import deepcopy
 from pathlib import Path
 
 FILE = Path(__file__).resolve()
-ROOT = FILE.parents[1]  # YOLOv5 root directory
+ROOT = FILE.parents[1]  # root directory
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 # ROOT = ROOT.relative_to(Path.cwd())  # relative
@@ -22,7 +22,8 @@ from models.experimental import *
 from utils.autoanchor import check_anchor_order
 from utils.general import LOGGER, check_version, check_yaml, make_divisible, print_args
 from utils.plots import feature_visualization
-from utils.torch_utils import fuse_conv_and_bn, initialize_weights, model_info, scale_img, select_device, time_sync
+from utils.torch_utils import (copy_attr, fuse_conv_and_bn, initialize_weights, model_info, scale_img, select_device,
+                               time_sync)
 
 try:
     import thop  # for FLOPs computation
@@ -61,7 +62,7 @@ class Detect(nn.Module):
                 if self.inplace:
                     y[..., 0:2] = (y[..., 0:2] * 2 - 0.5 + self.grid[i]) * self.stride[i]  # xy
                     y[..., 2:4] = (y[..., 2:4] * 2) ** 2 * self.anchor_grid[i]  # wh
-                else:  # for YOLOv5 on AWS Inferentia https://github.com/ultralytics/yolov5/pull/2953
+                else:  # for  on AWS Inferentia https://github.com/ultralytics/yolov5/pull/2953
                     xy = (y[..., 0:2] * 2 - 0.5 + self.grid[i]) * self.stride[i]  # xy
                     wh = (y[..., 2:4] * 2) ** 2 * self.anchor_grid[i]  # wh
                     y = torch.cat((xy, wh, y[..., 4:]), -1)
@@ -72,9 +73,9 @@ class Detect(nn.Module):
     def _make_grid(self, nx=20, ny=20, i=0):
         d = self.anchors[i].device
         if check_version(torch.__version__, '1.10.0'):  # torch>=1.10.0 meshgrid workaround for torch>=0.7 compatibility
-            yv, xv = torch.meshgrid([torch.arange(ny, device=d), torch.arange(nx, device=d)], indexing='ij')
+            yv, xv = torch.meshgrid([torch.arange(ny).to(d), torch.arange(nx).to(d)], indexing='ij')
         else:
-            yv, xv = torch.meshgrid([torch.arange(ny, device=d), torch.arange(nx, device=d)])
+            yv, xv = torch.meshgrid([torch.arange(ny).to(d), torch.arange(nx).to(d)])
         grid = torch.stack((xv, yv), 2).expand((1, self.na, ny, nx, 2)).float()
         anchor_grid = (self.anchors[i].clone() * self.stride[i]) \
             .view((1, self.na, 1, 1, 2)).expand((1, self.na, ny, nx, 2)).float()
@@ -82,7 +83,7 @@ class Detect(nn.Module):
 
 
 class Model(nn.Module):
-    def __init__(self, cfg='yolov5s.yaml', ch=3, nc=None, anchors=None):  # model, input channels, number of classes
+    def __init__(self, cfg='yolov3.yaml', ch=3, nc=None, anchors=None):  # model, input channels, number of classes
         super().__init__()
         if isinstance(cfg, dict):
             self.yaml = cfg  # model dict
@@ -170,7 +171,7 @@ class Model(nn.Module):
         return p
 
     def _clip_augmented(self, y):
-        # Clip YOLOv5 augmented inference tails
+        # Clip  augmented inference tails
         nl = self.model[-1].nl  # number of detection layers (P3-P5)
         g = sum(4 ** x for x in range(nl))  # grid points
         e = 1  # exclude layer count
@@ -224,6 +225,12 @@ class Model(nn.Module):
                 m.forward = m.forward_fuse  # update forward
         self.info()
         return self
+
+    def autoshape(self):  # add AutoShape module
+        LOGGER.info('Adding AutoShape... ')
+        m = AutoShape(self)  # wrap model
+        copy_attr(m, self, include=('yaml', 'nc', 'hyp', 'names', 'stride'), exclude=())  # copy attributes
+        return m
 
     def info(self, verbose=False, img_size=640):  # print model information
         model_info(self, verbose, img_size)
@@ -296,7 +303,7 @@ def parse_model(d, ch):  # model_dict, input_channels(3)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', type=str, default='yolov5s.yaml', help='model.yaml')
+    parser.add_argument('--cfg', type=str, default='yolov3yaml', help='model.yaml')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--profile', action='store_true', help='profile model speed')
     parser.add_argument('--test', action='store_true', help='test all yolo*.yaml')

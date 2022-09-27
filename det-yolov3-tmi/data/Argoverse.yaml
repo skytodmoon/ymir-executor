@@ -1,8 +1,8 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
-# Argoverse-HD dataset (ring-front-center camera) http://www.cs.cmu.edu/~mengtial/proj/streaming/ by Argo AI
+# YOLOv3 🚀 by Ultralytics, GPL-3.0 license
+# Argoverse-HD dataset (ring-front-center camera) http://www.cs.cmu.edu/~mengtial/proj/streaming/
 # Example usage: python train.py --data Argoverse.yaml
 # parent
-# ├── yolov5
+# ├── yolov3
 # └── datasets
 #     └── Argoverse  ← downloads here
 
@@ -29,7 +29,7 @@ download: |
   def argoverse2yolo(set):
       labels = {}
       a = json.load(open(set, "rb"))
-      for annot in tqdm(a['annotations'], desc=f"Converting {set} to YOLOv5 format..."):
+      for annot in tqdm(a['annotations'], desc=f"Converting {set} to YOLOv3 format..."):
           img_id = annot['image_id']
           img_name = a['images'][img_id]['name']
           img_label_name = img_name[:-3] + "txt"
