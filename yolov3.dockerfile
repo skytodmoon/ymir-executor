@@ -4,7 +4,7 @@ ARG CUDNN="8"
 
 # cuda11.1 + pytorch 1.9.0 + cudnn8 not work!!!
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-runtime
-ARG SERVER_MODE=product
+ARG SERVER_MODE=dev
 
 ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
 ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
