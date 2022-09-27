@@ -17,6 +17,8 @@ RUN	apt-get update && apt-get install -y gnupg2 git libglib2.0-0 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple
+
 # install ymir-exc sdk
 RUN if [ "${SERVER_MODE}" = "dev" ]; then \
         pip3 install --force-reinstall -U "git+https://github.com/IndustryEssentials/ymir.git/@dev#egg=ymir-exc&subdirectory=docker_executor/sample_executor/ymir_exc"; \
