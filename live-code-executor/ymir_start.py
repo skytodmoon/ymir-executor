@@ -41,7 +41,7 @@ def main():
     if osp.exists(pypi_file):
         pypi_mirror = executor_config.get('pypi_mirror', '')
 
-        cmd = f'pip install -r {pypi_file} -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/'
+        cmd = f'pip install -r {pypi_file}'
         cmd += ' -i {pypi_mirror}' if pypi_mirror else ''
 
         logger.info(f'install python package: {cmd}')
@@ -50,7 +50,13 @@ def main():
         logger.info('no python package needs to install')
 
     # step 3. run /app/start.py
-    cmd = 'python3 start.py'
+    if osp.exists('/app/start.py'):
+        cmd = 'python3 start.py'
+    elif osp.exists('/app/ymir/start.py'):
+        cmd = 'python3 ymir/start.py'
+    else:
+        raise Exception('cannot found start.py')
+
     logger.info(f'run task: {cmd}')
     subprocess.run(cmd.split(), check=True, cwd='/app')
 

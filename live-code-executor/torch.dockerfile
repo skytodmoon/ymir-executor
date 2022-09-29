@@ -5,7 +5,7 @@ ARG CUDNN="8"
 # cuda11.1 + pytorch 1.9.0 not work!!!
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-runtime
 
-ARG SERVER_MODE=dev
+ARG SERVER_MODE=prod
 ARG OPENCV="4.1.2.30"
 ARG NUMPY="1.20.0"
 ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
@@ -14,13 +14,11 @@ ENV CMAKE_PREFIX_PATH="$(dirname $(which conda))/../"
 ENV LANG=C.UTF-8
 
 # install linux package
-RUN apt-get update && apt-get install -y git curl wget zip gcc apt-file \
-    libglib2.0-0 libgl1-mesa-glx \
+RUN apt-get update && apt-get install -y git curl wget zip gcc \
+    libglib2.0-0 libgl1-mesa-glx libsm6 libxext6 libxrender-dev \
+    build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-    
-# install libsm
-RUN apt-file update && apt-get install -y libsm6 libxrender1 libxext-dev
 
 # Install python package
 RUN pip install -U pip && \
@@ -40,10 +38,7 @@ COPY start.sh /usr/bin
 
 WORKDIR /workspace
 COPY ymir_start.py /workspace/ymir_start.py
-# add ttf
-RUN mkdir -p /root/.config/Ultralytics \
-&& wget https://ultralytics.com/assets/Arial.ttf -O /root/.config/Ultralytics/Arial.ttf \
-&& wget https://ultralytics.com/assets/Arial.Unicode.ttf -O /root/.config/Ultralytics/Arial.Unicode.ttf
+
 # set up python path
 ENV PYTHONPATH=.
 
