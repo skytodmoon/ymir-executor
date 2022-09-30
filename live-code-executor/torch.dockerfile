@@ -39,6 +39,10 @@ RUN mkdir -p /img-man
 COPY img-man/*.yaml /img-man/
 COPY start.sh /usr/bin
 
+RUN mkdir -p /root/.config/Ultralytics \
+&& wget https://ultralytics.com/assets/Arial.ttf -O /root/.config/Ultralytics/Arial.ttf \
+&& wget https://ultralytics.com/assets/Arial.Unicode.ttf -O /root/.config/Ultralytics/Arial.Unicode.ttf
+
 WORKDIR /workspace
 COPY ymir_start.py /workspace/ymir_start.py
 
