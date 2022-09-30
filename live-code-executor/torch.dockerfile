@@ -20,15 +20,18 @@ RUN apt-get update && apt-get install -y git curl wget zip gcc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+
+RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple
+
 # Install python package
-RUN pip install -U pip && \
-    pip install loguru opencv-python==${OPENCV} numpy==${NUMPY}
+RUN pip3 install -U pip && \
+    pip3 install loguru opencv-python==${OPENCV} numpy==${NUMPY}
 
 # install ymir-exc sdk
 RUN if [ "${SERVER_MODE}" = "dev" ]; then \
-    pip install "git+https://github.com/IndustryEssentials/ymir.git/@dev#egg=ymir-exc&subdirectory=docker_executor/sample_executor/ymir_exc"; \
+    pip3 install "git+https://github.com/IndustryEssentials/ymir.git/@dev#egg=ymir-exc&subdirectory=docker_executor/sample_executor/ymir_exc"; \
   else \
-    pip install ymir-exc; \
+    pip3 install ymir-exc; \
   fi
 
 # copy template training/mining/infer config file
